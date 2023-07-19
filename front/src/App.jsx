@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ToDoListPage from "./pages/ToDoList";
 import SmartHomePage from "./pages/SmartHomePage";
 import ClipboardPage from "./pages/ClipboardPage";
-import "bootstrap/dist/css/bootstrap.min.css";
 import LoginModal from "./components/LoginModal";
 import Stack from "react-bootstrap/Stack";
 import Header from "./components/Header";

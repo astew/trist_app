@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import auth from "../script/auth";
 
 function LoginModal() {
-  const [show, setShow] = useState(true);
+  const [show] = useState(true);
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
