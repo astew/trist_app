@@ -1,29 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Button } from "react-bootstrap";
-import Config from "../config";
 
-import { useNavigate } from "react-router-dom";
+import clipboard from "../script/clipboard";
 
-const API_BASE = Config.APIBaseURL + "/clipboard";
-
-const ClipboardPage = ({ authToken }) => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    let rd = typeof authToken !== "string" || authToken === "";
-    if (rd) {
-      console.log("navigating to /login");
-      navigate("/login");
-    }
-  }, [authToken, navigate]);
-
+const ClipboardPage = () => {
   const [text, setText] = useState("");
 
   useEffect(() => {
     async function getClipboard() {
-      let res = await axios.get(API_BASE + "/get");
-      setText(res.data);
+      let newText = await clipboard.pullText();
+      setText(newText);
     }
     getClipboard();
   }, []);
@@ -33,25 +19,21 @@ const ClipboardPage = ({ authToken }) => {
   };
 
   const handlePush = async () => {
-    // Adjust the URL to your actual API endpoint
-    await axios.post(API_BASE + "/set", { text });
+    await clipboard.pushText(text);
   };
 
   const handlePull = async () => {
-    // Adjust the URL to your actual API endpoint
-    const response = await axios.get(API_BASE + "/get");
-    setText(response.data);
+    let newText = await clipboard.pullText();
+    setText(newText);
   };
 
   const handleClear = async () => {
-    // Adjust the URL to your actual API endpoint
-    await axios.post(API_BASE + "/clear", "");
+    await clipboard.pushText("");
     setText("");
   };
 
   return (
     <div className="clipboard">
-      <h1>Clipboard</h1>
       <textarea
         value={text}
         onChange={handleChange}

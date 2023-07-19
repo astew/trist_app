@@ -1,53 +1,65 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ToDoListPage from "./pages/ToDoList";
 import SmartHomePage from "./pages/SmartHomePage";
 import ClipboardPage from "./pages/ClipboardPage";
-import LoginPage from "./pages/LoginPage";
 import "bootstrap/dist/css/bootstrap.min.css";
+import LoginModal from "./components/LoginModal";
+import Stack from "react-bootstrap/Stack";
+import Header from "./components/Header";
+
+import auth from "./script/auth";
 
 const App = () => {
-  const [authToken, setAuthToken] = useState(
-    localStorage.getItem("auth_token") || null
-  );
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // Save authToken to local storage whenever it changes
+  // decide whether to navigate to login page
   useEffect(() => {
-    if (authToken === null) {
-      localStorage.removeItem("auth_token");
-    } else {
-      localStorage.setItem("auth_token", authToken);
+    async function check_auth() {
+      // If we're already on the login page, do nothing
+      if (location.pathname === "/modal/login") return;
+
+      // Otherwise, test whether we have a working auth token
+      let token_worked = await auth.test_auth();
+      if (token_worked) return;
+
+      // We need a new auth token. go to login
+      navigate("/modal/login", { state: { previousLocation: location } });
     }
-  }, [authToken]);
+    check_auth();
+  }, [navigate, location]);
 
   return (
-    <Router>
+    <Stack>
+      <Header currentModule="NotImplemented" />
       <Routes>
         <Route
           path="/"
-          element={<HomePage authToken={authToken} />}
+          element={<HomePage />}
         />
         <Route
-          path="/login"
-          element={<LoginPage setAuthToken={setAuthToken} />}
+          path="/modal/login"
+          element={<LoginModal />}
         />
         <Route
           path="/todo"
-          element={<ToDoListPage authToken={authToken} />}
+          element={<ToDoListPage />}
         />
         <Route
           path="/smarthome"
-          element={<SmartHomePage authToken={authToken} />}
+          element={<SmartHomePage />}
         />
         <Route
           path="/clipboard"
-          element={<ClipboardPage authToken={authToken} />}
+          element={<ClipboardPage />}
         />
         {/* Add more routes here for additional modules... */}
       </Routes>
-    </Router>
+    </Stack>
   );
 };
 

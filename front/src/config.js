@@ -4,7 +4,7 @@ class Config {
     if (this.hostname === "localhost") this.hostname += ":3000";
     this.SiteBaseURL = `${window.location.protocol}//${this.hostname}/api`;
 
-    this.APIBaseURL = `http://10.0.0.191:5000/api`;
+    this.APIBaseURL = `${process.env.REACT_APP_API_URL}`;
   }
 }
 

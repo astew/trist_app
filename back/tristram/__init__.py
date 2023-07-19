@@ -4,32 +4,23 @@ from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     get_jwt_identity
 )
+from .config import settings
 
-# from .database import init_db, shutdown_db_session
 from .clipboard import clipboard
 
 app = Flask(__name__)
-# Setup the Flask-JWT-Extended extension
-# TODO: get these values from the environment
-app.config["USER"] = "SOME_USERNAME"
-app.config["AUTH_PASSWORD"] = "test"
-app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+
+app.config["USER"] = settings.AUTH_USERNAME
+app.config["AUTH_PASSWORD"] = settings.AUTH_PASSWORD
+app.config["JWT_SECRET_KEY"] = settings.JWT_SECRET_KEY
 jwt = JWTManager(app)
 cors = CORS(app)
 
 app.register_blueprint(clipboard, url_prefix='/api/clipboard')
 
 
-# @app.teardown_appcontext
-# def shutdown_session(exception=None):
-#     shutdown_db_session()
 
-
-# init_db()
-
-
-
-@app.route("/login", methods=["POST"])
+@app.route("/api/login", methods=["POST"])
 def login():
     password = request.json.get("password", None)
     if  password != app.config["AUTH_PASSWORD"]:
@@ -38,13 +29,7 @@ def login():
     access_token = create_access_token(identity=app.config["USER"])
     return jsonify(access_token=access_token)
 
-
-@app.route('/')
+@app.route("/api/test_auth", methods=["GET"])
 @jwt_required()
-def index():
-    return jsonify(message="Hello, World!"), 200
-
-# if __name__ == '__main__':
-#     # app.app_context().push()
-#     # db.create_all()  # create tables for our models
-#     app.run(host='0.0.0.0', port=5000, debug=True)
+def test_auth():
+    return jsonify(message="OK"), 200

@@ -24,6 +24,7 @@ flask-cors = "*"
 passlib = "*"
 email-validator = "*"
 importlib-metadata = "*"
+typer = "*"
 
 [dev-packages]
 
