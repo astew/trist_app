@@ -1,15 +1,16 @@
 import React from "react";
+import { Button } from "react-bootstrap";
 
-const TodoItem = ({ desc }) => {
+const TodoItem = ({ item }) => {
   return (
     <>
-      <div>
-        <input
-          type="checkbox"
-          label={desc}
-        />
-        {desc}
-      </div>
+      <span>
+        <div>
+          <h4>{item.title}</h4>
+          <p>{item.desc}</p>
+        </div>
+        <Button>Done</Button>
+      </span>
     </>
   );
 };

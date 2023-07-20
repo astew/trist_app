@@ -1,8 +1,6 @@
 from flask import Blueprint
 from flask import request
-from flask_jwt_extended import (
-    jwt_required
-)
+from flask_jwt_extended import jwt_required
 
 clipboard = Blueprint('clipboard', __name__)
 
@@ -12,7 +10,6 @@ clipboard_text = "default"
 @jwt_required()
 def get_clipboard():
     global clipboard_text
-    print(request.headers)
     return clipboard_text 
 
 @clipboard.route('/set', methods=['POST'])

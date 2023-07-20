@@ -58,7 +58,6 @@ const App = () => {
           path="/clipboard"
           element={<ClipboardPage />}
         />
-        {/* Add more routes here for additional modules... */}
       </Routes>
     </Stack>
   );

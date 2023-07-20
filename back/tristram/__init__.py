@@ -7,6 +7,7 @@ from flask_jwt_extended import (
 from .config import settings
 
 from .clipboard import clipboard
+from .todo_list import todo_list_blueprint as todo_list
 
 app = Flask(__name__)
 
@@ -17,6 +18,7 @@ jwt = JWTManager(app)
 cors = CORS(app)
 
 app.register_blueprint(clipboard, url_prefix='/api/clipboard')
+app.register_blueprint(todo_list, url_prefix='/api/todo')
 
 
 
@@ -26,7 +28,8 @@ def login():
     if  password != app.config["AUTH_PASSWORD"]:
         return jsonify({"msg": "Bad password"}), 401
 
-    access_token = create_access_token(identity=app.config["USER"])
+    access_token = create_access_token(identity=app.config["USER"], 
+                                       expires_delta=False)
     return jsonify(access_token=access_token)
 
 @app.route("/api/test_auth", methods=["GET"])

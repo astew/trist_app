@@ -1,19 +1,30 @@
 import React from "react";
 import Stack from "react-bootstrap/Stack";
 import TodoItem from "../components/TodoItem";
+import { useState, useEffect } from "react";
+
+import todo from "../script/todo";
 
 const ToDoListPage = () => {
-  const todo_items = ["ItemA", "ItemB", "ItemC"];
+  const [todo_items, setTodoItems] = useState([]);
+
+  useEffect(() => {
+    async function getAll() {
+      const todo_items = await todo.getAll();
+
+      console.log(Object.entries(todo_items));
+
+      setTodoItems(todo_items);
+    }
+    getAll();
+  }, []);
 
   return (
     <>
-      <Stack
-        gap={3}
-        className="flex-column-reverse"
-      >
-        {todo_items.map((item, dex) => (
+      <Stack gap={3}>
+        {Object.entries(todo_items).map((item, dex) => (
           <TodoItem
-            desc={item}
+            item={item[1]}
             key={dex}
           />
         ))}
