@@ -25,6 +25,8 @@ passlib = "*"
 email-validator = "*"
 importlib-metadata = "*"
 typer = "*"
+flask-jwt-extended = "*"
+pydantic = "==1.8.2"
 
 [dev-packages]
 

@@ -1,8 +1,8 @@
 
 import DefaultIcon from "../defaultIcon.svg";
-import todo_icon from "../pages/icons/todo_icon.jpg";
-import smarthome_icon from "../pages/icons/smarthome_icon.jpg";
-import clipboard_icon from "../pages/icons/clipboard_icon.jpg";
+import todo_icon from "../pages/icons/todo_icon.png";
+import smarthome_icon from "../pages/icons/smart_home_icon.png";
+import clipboard_icon from "../pages/icons/clipboard_icon.png";
 
 const modules = [
   {
