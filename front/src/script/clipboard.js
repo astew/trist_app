@@ -1,20 +1,18 @@
 import axios from "axios";
 import auth from "./auth";
-import Config from "../config";
-
-const API_BASE = Config.APIBaseURL + "/clipboard";
+import config from "../config";
 
 class ClipboardAPI {
 
   constructor(){
     this.axios = axios.create({
-      baseURL: Config.APIBaseURL + "/clipboard"
+      baseURL: config.API_URL_Prefix + "/clipboard"
     });
     
   }
 
   async pullText() {
-    let res = await this.axios.get(API_BASE + "/get", {
+    let res = await this.axios.get("/get", {
       headers:{
         Authorization: `Bearer ${auth.getAuthToken()}`
       }
@@ -31,7 +29,7 @@ class ClipboardAPI {
   }
 
   async pushText(text) {
-    let res = await this.axios.post(API_BASE + "/set", { text }, {
+    let res = await this.axios.post("/set", { text }, {
       headers:{
         Authorization: `Bearer ${auth.getAuthToken()}`
       }

@@ -1,12 +1,12 @@
 import axios from "axios";
 import auth from "./auth";
-import Config from "../config";
+import config from "../config";
 
 class TodoAPI {
 
   constructor(){
     this.axios = axios.create({
-      baseURL: Config.APIBaseURL + "/todo",
+      baseURL: config.API_URL_Prefix + "/todo",
     });
     
   }

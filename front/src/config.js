@@ -1,10 +1,11 @@
 class Config {
   constructor() {
-    this.hostname = window.location.hostname;
-    if (this.hostname === "localhost") this.hostname += ":3000";
-    this.SiteBaseURL = `${window.location.protocol}//${this.hostname}/api`;
-
-    this.APIBaseURL = `${process.env.REACT_APP_API_URL}`;
+    if (process.env.NODE_ENV !== 'production') {
+      this.API_URL_Prefix = `${process.env.REACT_APP_API_DEV_URL_PREFIX}/api`;
+    }
+    else {
+      this.API_URL_Prefix = "/api";
+    }
   }
 }
 

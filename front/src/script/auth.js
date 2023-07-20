@@ -4,7 +4,8 @@ import config from "../config";
 
 class Auth {
   constructor() {
-    this.loginURL = `${config.APIBaseURL}/login`;
+    this.loginURL = `${config.API_URL_Prefix}/login`;
+    this.testAuthURL = `${config.API_URL_Prefix}/test_auth`;
   }
 
   getAuthToken() {
@@ -42,7 +43,7 @@ class Auth {
     if(token == null) return false;
 
     try {
-      let res = await axios.get(config.APIBaseURL + "/test_auth", {
+      let res = await axios.get(this.testAuthURL, {
         headers:{ Authorization: `Bearer ${this.getAuthToken()}` }
       });
       if(res.status === 200) return true;
