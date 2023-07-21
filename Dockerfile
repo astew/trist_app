@@ -10,7 +10,7 @@ FROM python:3.9-slim-buster
 
 WORKDIR /app
 COPY ./back ./
-COPY --from=builder /usr/app/build /app/front
+COPY --from=builder /usr/app/build /app/app
 COPY ./Pipfile* ./
 RUN pip install pipenv
 RUN pipenv install --system --deploy --ignore-pipfile
