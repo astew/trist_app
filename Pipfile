@@ -27,6 +27,7 @@ importlib-metadata = "*"
 typer = "*"
 flask-jwt-extended = "*"
 pydantic = "==1.8.2"
+gunicorn = "*"
 
 [dev-packages]
 

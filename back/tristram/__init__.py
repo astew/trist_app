@@ -8,8 +8,6 @@ from .config import DevelopmentConfig
 from .clipboard import clipboard
 from .todo_list import todo_list_blueprint as todo_list
 
-APP_DIR = "../app"
-
 app = Flask(__name__, static_folder=None)
 
 app.config.from_object(DevelopmentConfig)
@@ -17,9 +15,6 @@ app.config.from_prefixed_env()
 
 jwt = JWTManager(app)
 
-# Only allow CORS in development
-if(app.debug):
-  cors = CORS(app)
 
 app.register_blueprint(clipboard, url_prefix='/api/clipboard')
 app.register_blueprint(todo_list, url_prefix='/api/todo')
@@ -40,22 +35,3 @@ def login():
 @jwt_required()
 def test_auth():
   return jsonify(message="OK"), 200
-
-
-# If in production, we will server the frontend from the static folder
-if not app.debug:
-  print("Adding routes for frontend")
-
-  @app.route('/')
-  def serve_app():
-    return app.redirect('/app')
-  
-  @app.route('/app', defaults={'path': ''})
-  @app.route('/app/<path:path>')
-  def serve_file(path):
-    return send_from_directory(APP_DIR, "index.html")
-
-  @app.route('/<path:path>')
-  def testing1(path):
-    return send_from_directory(APP_DIR, path)
-  
