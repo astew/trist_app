@@ -7,6 +7,6 @@ RUN pipenv install --system --deploy --ignore-pipfile
 
 COPY ./back ./
 
-EXPOSE 5000
+EXPOSE 4040
 
 CMD ["gunicorn", "--bind", "0.0.0.0:4040", "login:app"]
