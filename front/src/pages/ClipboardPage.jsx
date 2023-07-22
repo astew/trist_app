@@ -60,6 +60,14 @@ const ClipboardPage = () => {
         >
           Clear
         </Button>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            navigator.clipboard.writeText(text);
+          }}
+        >
+          Copy
+        </Button>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import ToDoListPage from "./pages/ToDoList";
+import ToDoListPage from "./pages/ToDoListPage";
 import SmartHomePage from "./pages/SmartHomePage";
 import ClipboardPage from "./pages/ClipboardPage";
 import LoginModal from "./components/LoginModal";
@@ -47,7 +47,7 @@ const App = () => {
           element={<LoginModal />}
         />
         <Route
-          path="/todo"
+          path="/todo/*"
           element={<ToDoListPage />}
         />
         <Route

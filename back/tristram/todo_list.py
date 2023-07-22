@@ -3,6 +3,7 @@ from flask import request
 from flask_jwt_extended import jwt_required
 from pydantic import BaseModel
 from typing import List, Dict
+from datetime import datetime
 
 blueprint = Blueprint('todo', __name__)
 
@@ -12,6 +13,7 @@ class TodoItem(BaseModel):
   title: str
   desc: str
   completed: bool
+  creation_time: str
 
 
 class TodoList(BaseModel):
@@ -19,7 +21,8 @@ class TodoList(BaseModel):
 
     def add_item(self, title: str, desc: str):
         item_id = max(self.__root__.keys()) + 1 if self.__root__ else 1
-        item = TodoItem(id=item_id, title=title, desc=desc, completed=False)
+        current_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        item = TodoItem(id=item_id, title=title, desc=desc, completed=False, creation_time=current_time)
         self.__root__[item.id] = item
         return item_id
 
@@ -45,11 +48,8 @@ class TodoList(BaseModel):
 
 todo_list = TodoList()
 
-item1 = TodoItem(id=1, title="test", desc="Description for item 1", completed=False)
-item2 = TodoItem(id=2, title="test2", desc="Description for the other item", completed=True)
-
-todo_list.add_item("test", "Description for item 1")
-todo_list.add_item("test2", "Description for the other item")
+# for k in range(10):
+#   todo_list.add_item(f"Item {k} Title", f"Description for item {k}")
 
 
 
@@ -82,7 +82,6 @@ def add_item():
 @blueprint.route('/delete/<int:id>', methods=['POST'])
 @jwt_required()
 def delete_item(id):
-
   if not todo_list.has_item(id):
     return f"Item {id} not found.", 404
   
