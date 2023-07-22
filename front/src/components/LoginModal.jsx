@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import auth from "../script/auth";
+import axios from "axios";
 
 function LoginModal() {
   const [show] = useState(true);
@@ -11,43 +11,29 @@ function LoginModal() {
   const location = useLocation();
 
   const handleLogin = async () => {
-    const success = await auth.login(password);
+    try {
+      await axios.post("/auth/login", { password }, { withCredentials: true });
+      console.log("login successful");
 
-    if (!success) {
-      console.log("login failed");
+      navigate("/");
+    } catch (err) {
+      console.log(err);
       setPassword("");
-      return;
     }
-
-    const verified = await auth.test_auth();
-
-    if (!verified) {
-      alert("Couldn't verify authorization");
-      return;
-    }
-
-    console.log("login successful");
-    let navto = "/";
-    if (location.state != null)
-      navto = location.state.previousLocation.pathname;
-    navigate(navto, {
-      replace: true,
-    });
   };
 
   return (
     <Modal
       show={show}
-      // onHide={handleClose}
       backdrop="static"
       keyboard={false}
       centered
     >
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title>Login</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={handleLogin}>
           <Form.Group
             className="mb-3"
             controlId="formBasicPassword"
@@ -65,8 +51,8 @@ function LoginModal() {
       <Modal.Footer>
         <Button
           variant="primary"
-          type="button"
-          onClick={handleLogin}
+          type="submit"
+          onSubmit={handleLogin}
         >
           Submit
         </Button>
