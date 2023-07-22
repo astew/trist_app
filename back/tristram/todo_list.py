@@ -1,6 +1,5 @@
 from flask import Blueprint
 from flask import request
-from flask_jwt_extended import jwt_required
 from pydantic import BaseModel
 from typing import List, Dict
 from datetime import datetime
@@ -54,12 +53,10 @@ todo_list = TodoList()
 
 
 @blueprint.route('/get', methods=['GET'])
-@jwt_required()
 def get_items():
   return todo_list.json()
 
 @blueprint.route('/get/<int:id>', methods=['GET'])
-@jwt_required()
 def get_item(id: int):
   return (todo_list.get_item(id).json()
           if todo_list.has_item(id)
@@ -67,7 +64,6 @@ def get_item(id: int):
 
 
 @blueprint.route('/add', methods=['POST'])
-@jwt_required()
 def add_item():
   try:
     title = request.json.get('title', None)
@@ -80,7 +76,6 @@ def add_item():
 
 
 @blueprint.route('/delete/<int:id>', methods=['POST'])
-@jwt_required()
 def delete_item(id):
   if not todo_list.has_item(id):
     return f"Item {id} not found.", 404
@@ -91,7 +86,6 @@ def delete_item(id):
 
 
 @blueprint.route('/update/<int:id>', methods=['POST'])
-@jwt_required()
 def update_item(id):
   
   if not todo_list.has_item(id):
@@ -110,14 +104,12 @@ def update_item(id):
 
 
 @blueprint.route('/clear', methods=['POST'])
-@jwt_required()
 def clear_items():
   todo_list.clear()
   return "ok"
 
 
 @blueprint.route('/complete/<int:id>', methods=['POST'])
-@jwt_required()
 def mark_complete(id):
   
   if not todo_list.has_item(id):
