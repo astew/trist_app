@@ -1,0 +1,61 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.todo-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.modules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+
+.module-icon {
+  width: 256px; /* Adjusted size */
+  height: 256px; /* Adjusted size */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 1rem;
+  text-decoration: none;
+  color: black;
+  transition: transform 0.2
+}
+
+.module-icon > img {
+  width: 256px;
+  height: 256px;
+}
+
+.clipboard {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  height: 80vh;
+  padding: 1rem;
+}
+
+.clipboard-text {
+  flex-grow: 1;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+}
+
+.clipboard button {
+  margin-right: 0.5rem;
+}
+  

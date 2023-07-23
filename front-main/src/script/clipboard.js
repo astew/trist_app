@@ -1,22 +1,16 @@
 import axios from "axios";
-import auth from "./auth";
-import config from "../config";
 
 class ClipboardAPI {
 
   constructor(){
     this.axios = axios.create({
-      baseURL: config.API_URL_Prefix + "/clipboard"
+      baseURL: "/api/clipboard"
     });
     
   }
 
   async pullText() {
-    let res = await this.axios.get("/get", {
-      headers:{
-        Authorization: `Bearer ${auth.getAuthToken()}`
-      }
-    });
+    let res = await this.axios.get("/get");
     if(res.status === 200) {
       return res.data;
     }
@@ -29,11 +23,7 @@ class ClipboardAPI {
   }
 
   async pushText(text) {
-    let res = await this.axios.post("/set", { text }, {
-      headers:{
-        Authorization: `Bearer ${auth.getAuthToken()}`
-      }
-    });
+    let res = await this.axios.post("/set", { text });
 
     return res.status === 200;
   }

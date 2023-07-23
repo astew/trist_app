@@ -8,3 +8,7 @@ app.config.from_prefixed_env()
 
 app.register_blueprint(clipboard, url_prefix='/api/clipboard')
 app.register_blueprint(todo_list, url_prefix='/api/todo')
+
+@app.route("/")
+def index():
+    return "Hello, World!"

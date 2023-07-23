@@ -1,12 +1,13 @@
 FROM python:3.9-slim-buster
 
 WORKDIR /app
-COPY ./Pipfile* ./
-RUN pip install pipenv
-RUN pipenv install --system --deploy --ignore-pipfile
 
-COPY ./back ./
+COPY ./requirements.txt ./requirements.txt
+RUN python3 -m pip install -r requirements.txt
 
-EXPOSE 5000
+RUN apt-get update
+RUN apt-get install -y nginx
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "tristram:app"]
+COPY ./script/nginx.dev-w-auth.conf /etc/nginx/nginx.conf
+
+CMD ["nginx"]

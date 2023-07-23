@@ -6,22 +6,39 @@
       "script": "start", 
       "path": "front",
       "problemMatcher": [],
-      "label": "Front End",
+      "label": "REACT",
       "detail": "Start frontend using 'npm start'.",
+      "options": {
+        "env": {
+          "BROWSER": "None",
+          "PORT": "3001"
+        }
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      },
+      "isBackground": true
+    },
+    {
+      "type": "npm",
+      "script": "start", 
+      "path": "front-login",
+      "problemMatcher": [],
+      "label": "LOGIN-REACT",
+      "detail": "Start login react using 'npm start'.",
       "options": {
         "env": {
           "BROWSER": "None"
         }
       },
       "runOptions": {
-        "instanceLimit": 1,
-        "runOn": "folderOpen"
+        "instanceLimit": 1
       },
       "isBackground": true
     },
     {
       "type": "shell",
-      "label": "Back End",
+      "label": "API",
       "detail": "Start backend in debug mode.",
       "command": "flask --app tristram run -h 0.0.0.0 -p 5000 --debug --reload",
       "isBackground": true,
@@ -29,8 +46,21 @@
         "cwd": "/workspaces/tristram/back"
       },
       "runOptions": {
-        "instanceLimit": 1,
-        "runOn": "folderOpen"
+        "instanceLimit": 1
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "AUTH",
+      "detail": "Start auth backend in debug mode.",
+      "command": "flask --app login run -h 0.0.0.0 -p 5001 --debug --reload",
+      "isBackground": true,
+      "options": {
+        "cwd": "/workspaces/tristram/back"
+      },
+      "runOptions": {
+        "instanceLimit": 1
       },
       "problemMatcher": []
     }

@@ -15,6 +15,7 @@ jwt = JWTManager(app)
 
 @app.route("/auth/login", methods=["POST"])
 def login():
+  print(f"Attempted login.")
   password = request.json.get("password", None)
   if  password != app.config["AUTH_PASSWORD"]:
     return "bad password", 401
@@ -31,12 +32,12 @@ def logout():
   unset_jwt_cookies(response)
   return response
 
-@app.route("/test", methods=["GET"])
+@app.route("/auth/test", methods=["GET"])
 @jwt_required()
 def test():
   return "OK", 200
 
-@app.route("/*", methods=["GET", "POST"])
-@jwt_required()
-def catch_all():
-  return "OK", 200
+# @app.route("/*", methods=["GET", "POST"])
+# @jwt_required()
+# def catch_all():
+#   return "OK", 200

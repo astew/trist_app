@@ -10,15 +10,17 @@
 	},
 	"features": {
 		"ghcr.io/devcontainers/features/node:1": {
-			"version": "lts"
-		}
+			"nodeGypDependencies": true,
+			"version": "18"
+		},
+		"ghcr.io/akhildevelops/devcontainer-features/pip:0": {}
 	},
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [3000, 5000]
+	"forwardPorts": [80]
 
 	// Uncomment the next line to run commands after the container is created.
 	// "postCreateCommand": "cat /etc/os-release",
