@@ -1,12 +1,19 @@
 # Required Libraries
 from flask import Blueprint, request, jsonify
 from .db import TodoDB
+import os
 
 # Flask Blueprint
 api = Blueprint('api', __name__)
 
+
+db_path = '/data'
+if not os.path.exists(db_path):
+    db_path = './'
+db_path = os.path.join(db_path, 'todo.db')
+
 # Instantiate TodoDB
-todo_db = TodoDB('todo.db')
+todo_db = TodoDB(db_path)
 
 @api.route('/lists', methods=['POST'])
 def add_list():
