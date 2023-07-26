@@ -1,55 +1,50 @@
 import React from "react";
-import ListView from "./todo/ListView";
-import AddTodo from "./todo/AddTodo";
-import { useState, useEffect } from "react";
-
+import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import todo from "../script/todo";
+import { Stack } from "react-bootstrap";
+
+import Footer from "../components/Footer";
+
+import ToDoLists from "../components/todo/ListsView";
+import ToDoList from "../components/todo/ListView";
+import AddTodoList from "../components/todo/AddList";
+import AddTodoItem from "../components/todo/AddTodoItem";
+import EditTodoItem from "../components/todo/EditTodoItem";
+import TodoItemView from "../components/todo/TodoItemView";
 
 const ToDoListPage = () => {
-  const [todo_items, setTodoItems] = useState([]);
-
-  const [needsRefresh, setNeedsRefresh] = useState(false);
-
-  const handleNeedsRefresh = () => {
-    setNeedsRefresh(true);
-  };
-
-  useEffect(() => {
-    async function getAll() {
-      const todo_items = await todo.getAll();
-      setTodoItems(todo_items);
-    }
-    getAll();
-  }, []);
-
-  useEffect(() => {
-    async function getAll() {
-      const todo_items = await todo.getAll();
-      setTodoItems(todo_items);
-      setNeedsRefresh(false);
-    }
-    if (needsRefresh) getAll();
-  }, [needsRefresh]);
+  const [pageActions, setPageActions] = useState([]);
 
   return (
-    <>
+    <Stack>
       <Routes>
         <Route
           path="/"
-          element={
-            <ListView
-              todo_items={todo_items}
-              onItemChanged={handleNeedsRefresh}
-            />
-          }
+          element={<ToDoLists updatePageActions={setPageActions} />}
+        />
+        <Route
+          path="/item/:item_id"
+          element={<TodoItemView updatePageActions={setPageActions} />}
+        />
+        <Route
+          path="/item/:item_id/edit"
+          element={<EditTodoItem updatePageActions={setPageActions} />}
+        />
+        <Route
+          path="/list/:list_id/add"
+          element={<AddTodoItem updatePageActions={setPageActions} />}
+        />
+        <Route
+          path="/list/:list_id/*"
+          element={<ToDoList updatePageActions={setPageActions} />}
         />
         <Route
           path="/add"
-          element={<AddTodo onItemAdd={handleNeedsRefresh} />}
+          element={<AddTodoList updatePageActions={setPageActions} />}
         />
       </Routes>
-    </>
+      <Footer pageActions={pageActions} />
+    </Stack>
   );
 };
 

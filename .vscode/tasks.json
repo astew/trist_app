@@ -4,14 +4,13 @@
     {
       "type": "npm",
       "script": "start", 
-      "path": "front",
+      "path": "front-main",
       "problemMatcher": [],
-      "label": "REACT",
+      "label": "FRONT-MAIN",
       "detail": "Start frontend using 'npm start'.",
       "options": {
         "env": {
           "BROWSER": "None",
-          "PORT": "3001"
         }
       },
       "runOptions": {
@@ -24,7 +23,7 @@
       "script": "start", 
       "path": "front-login",
       "problemMatcher": [],
-      "label": "LOGIN-REACT",
+      "label": "FRONT-LOGIN",
       "detail": "Start login react using 'npm start'.",
       "options": {
         "env": {
@@ -38,7 +37,7 @@
     },
     {
       "type": "shell",
-      "label": "API",
+      "label": "BACK-API",
       "detail": "Start backend in debug mode.",
       "command": "flask --app tristram run -h 0.0.0.0 -p 5000 --debug --reload",
       "isBackground": true,
@@ -52,7 +51,7 @@
     },
     {
       "type": "shell",
-      "label": "AUTH",
+      "label": "BACK-AUTH",
       "detail": "Start auth backend in debug mode.",
       "command": "flask --app login run -h 0.0.0.0 -p 5001 --debug --reload",
       "isBackground": true,

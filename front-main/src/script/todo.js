@@ -1,70 +1,63 @@
-import axios from "axios";
+import axios from 'axios';
 
-class TodoAPI {
+const BASE_API_URL = '/api/todo';  
 
-  constructor(){
-    this.axios = axios.create({
-      baseURL: "/api/todo",
-    });
-    
+const apiClient = axios.create({
+  baseURL: BASE_API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+
+class Todo {
+
+  async addList(name) {
+    const response = await apiClient.post('/lists', { name });
+    return response.data;
   }
 
-  // Gets all todo items
-  async getAll() {
-
-    let res = await this.axios.get("/get");
-
-    return res.data;
+  async getLists() {
+    const response = await apiClient.get('/lists');
+    return response.data;
   }
 
-  // Gets a todo item by id
-  async get(id) {
-    let res = await this.axios.get(`/get/${id}`);
-
-    return res.data;
+  async deleteList(listId) {
+    const response = await apiClient.delete(`/lists/${listId}`);
+    return response.data;
   }
 
-  // Adds a new todo item; returns the new todo item id
-  async add(title, desc) {
-    let res = await this.axios.post(`/add`, { title, desc });
-
-    return res.data;
-  }
-  
-  // Deletes a todo item
-  async delete(id) {
-    let res = await this.axios.post(`/delete/${id}`, {});
-
-    return res.data;
+  async addItem(list_id, title, desc) {
+    const response = await apiClient.post('/items', { list_id, title, desc });
+    return response.data;
   }
 
-  // Marks an item complete
-  async complete(id) {
-    let res = await this.axios.post(`/complete/${id}`, {});
-
-    return res.data;
+  async getItems(listId) {
+    const response = await apiClient.get(`/lists/${listId}/items`);
+    return response.data;
   }
 
-  // Updates a todo item
-  async update(id, title, desc, completed) {
-    let data = {};
-    if (title) data.title = title;
-    if (desc) data.desc = desc;
-    if (completed) data.completed = completed;
-
-    let res = await this.axios.post(`/update/${id}`, data);
-
-    return res.data;
+  async getItem(itemId) {
+    const response = await apiClient.get(`/items/${itemId}`);
+    return response.data;
   }
 
-  // Clears all items
-  async clear() {
-    let res = await this.axios.post(`/clear`, {});
-
-    return res.data;
+  async deleteItem(itemId) {
+    const response = await apiClient.delete(`/items/${itemId}`);
+    return response.data;
   }
 
+  async completeItem(itemId) {
+    const response = await apiClient.post(`/items/${itemId}/complete`);
+    return response.data;
+  }
+
+  async updateItem(itemId, title, desc, listId) {
+    const response = await apiClient.put(`/items/${itemId}`, { title, desc, listId });
+    return response.data;
+  }
 };
 
-const todo = new TodoAPI();
+let todo = new Todo();
+
 export default todo;

@@ -15,10 +15,12 @@ jwt = JWTManager(app)
 
 @app.route("/auth/login", methods=["POST"])
 def login():
-  print(f"Attempted login.")
   password = request.json.get("password", None)
   if  password != app.config["AUTH_PASSWORD"]:
+    print(f"Failed login attempt.")
     return "bad password", 401
+  
+  print(f"Successful login.")
   
   response = jsonify({"msg": "login successful"})
   access_token = create_access_token(identity=app.config["AUTH_USERNAME"])

@@ -1,22 +1,36 @@
 import React from "react";
-import { useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-
-import { useNavigate } from "react-router-dom";
-
 import todo from "../../script/todo";
 
-const AddTodo = ({ onItemAdd }) => {
+const EditTodoItem = ({ updatePageActions }) => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+  const [listId, setListId] = useState("");
+  const { item_id } = useParams();
   const navigate = useNavigate();
 
-  const handleAdd = useCallback(() => {
+  useEffect(() => {
+    updatePageActions([]);
+  }, [updatePageActions]);
+
+  useEffect(() => {
+    async function getAllItems() {
+      let item = await todo.getItem(item_id);
+      setTitle(item.title);
+      setDesc(item.desc);
+      setListId(item.list_id);
+    }
+    getAllItems();
+  }, [item_id]);
+
+  const handleUpdate = useCallback(() => {
     async function addItem() {
       try {
-        await todo.add(title, desc);
-        onItemAdd();
+        await todo.updateItem(item_id, title, desc, listId);
         navigate(-1, { replace: true });
       } catch (e) {
         console.log("Failed to add todo item.");
@@ -24,7 +38,7 @@ const AddTodo = ({ onItemAdd }) => {
       }
     }
     addItem();
-  }, [title, desc, navigate, onItemAdd]);
+  }, [listId, item_id, title, desc, navigate]);
 
   return (
     <>
@@ -37,24 +51,28 @@ const AddTodo = ({ onItemAdd }) => {
           <Form.Control
             as="input"
             placeholder="title"
+            autoComplete="off"
+            defaultValue={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <Form.Label>Description</Form.Label>
           <Form.Control
             as="textarea"
             placeholder="description"
+            autoComplete="off"
+            defaultValue={desc}
             onChange={(e) => setDesc(e.target.value)}
           />
         </Form.Group>
         <Button
           variant="primary"
-          onClick={handleAdd}
+          onClick={handleUpdate}
         >
-          Add
+          Update
         </Button>
       </Form>
     </>
   );
 };
 
-export default AddTodo;
+export default EditTodoItem;
